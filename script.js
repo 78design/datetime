@@ -420,3 +420,32 @@ class ParticleSystem {
 
 // 初始化粒子系统
 const particleSystem = new ParticleSystem('particles-canvas');
+
+// 全屏功能实现
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+// 全屏切换函数
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        // 进入全屏
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        // 退出全屏
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
+}
+
+// 监听全屏按钮点击事件
+fullscreenBtn.addEventListener('click', toggleFullscreen);

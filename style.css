@@ -69,6 +69,22 @@ body {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
+/* 全屏按钮样式 */
+.fullscreen-btn {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.fullscreen-btn:hover {
+    transform: scale(1.2);
+}
+
 .container {
     text-align: center;
     padding: 20px;
