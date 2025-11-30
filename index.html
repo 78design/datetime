@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+    <div class="color-picker">
+        <div class="color-option" data-color="dark" style="background-color: #1a1a1a; border: 2px solid white;"></div>
+        <div class="color-option" data-color="red" style="background-color: #7f1d1d; border: 2px solid #ef4444;"></div>
+    </div>
+    <div class="container">
+        <div class="date">
+            <span id="date-text">11.28 FRIDAY</span>
+        </div>
+        <div class="clock-container">
+            <div class="time-units">
+                <!-- 小时单元 -->
+                <div class="time-unit">
+                    <div class="time-digits">
+                        <div class="digit" id="hour-tens">
+                            <div class="digit-top">
+                                <span class="current-top">2</span>
+                                <span class="next-top">2</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">2</span>
+                                <span class="next-bottom">2</span>
+                            </div>
+                        </div>
+                        <div class="digit" id="hour-ones">
+                            <div class="digit-top">
+                                <span class="current-top">1</span>
+                                <span class="next-top">1</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">1</span>
+                                <span class="next-bottom">1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">HOUR</div>
+                </div>
+                
+                <!-- 分钟单元 -->
+                <div class="time-unit">
+                    <div class="time-digits">
+                        <div class="digit" id="min-tens">
+                            <div class="digit-top">
+                                <span class="current-top">2</span>
+                                <span class="next-top">2</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">2</span>
+                                <span class="next-bottom">2</span>
+                            </div>
+                        </div>
+                        <div class="digit" id="min-ones">
+                            <div class="digit-top">
+                                <span class="current-top">9</span>
+                                <span class="next-top">9</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">9</span>
+                                <span class="next-bottom">9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">MIN</div>
+                </div>
+                
+                <!-- 秒单元 -->
+                <div class="time-unit">
+                    <div class="time-digits">
+                        <div class="digit" id="sec-tens">
+                            <div class="digit-top">
+                                <span class="current-top">3</span>
+                                <span class="next-top">3</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">3</span>
+                                <span class="next-bottom">3</span>
+                            </div>
+                        </div>
+                        <div class="digit" id="sec-ones">
+                            <div class="digit-top">
+                                <span class="current-top">3</span>
+                                <span class="next-top">3</span>
+                            </div>
+                            <div class="digit-bottom">
+                                <span class="current-bottom">3</span>
+                                <span class="next-bottom">3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">SEC</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 默认配色方案 - 深色 */
+    --background-color: #1a1a1a;
+    --text-color: white;
+    --digit-color: #333;
+    --digit-top-color: #3a3a3a;
+    --digit-bottom-color: #444;
+    --label-color: white;
+    --border-color: rgba(255, 255, 255, 0.1);
+    
+    /* 动画属性 */
+    --animation-duration: 0.6s;
+    --animation-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 粒子系统样式 */
+#particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 配色选择器样式 */
+.color-picker {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.color-option {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.color-option:hover {
+    transform: scale(1.2);
+}
+
+.color-option.active {
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.date {
+    margin-bottom: 40px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: var(--label-color);
+}
+
+.time-units {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-digits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.digit {
+    width: 120px;
+    height: 180px;
+    background-color: var(--digit-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0); /* 触发硬件加速 */
+}
+
+/* 数字上下两部分容器 */
+.digit-top, .digit-bottom {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    transform: translateZ(0); /* 触发硬件加速 */
+}
+
+/* 数字上半部分 */
+.digit-top {
+    align-items: flex-end;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: var(--digit-top-color);
+    border-radius: 10px 10px 0 0;
+}
+
+/* 数字下半部分 */
+.digit-bottom {
+    align-items: flex-start;
+    background-color: var(--digit-bottom-color);
+    border-radius: 0 0 10px 10px;
+}
+
+/* 当前数字和下一个数字 */
+.current-top, .next-top, .current-bottom, .next-bottom {
+    font-size: 120px;
+    line-height: 1;
+    position: absolute;
+}
+
+/* 上半部分数字 */
+.current-top, .next-top {
+    transform: translateY(50%);
+}
+
+/* 下半部分数字 */
+.current-bottom, .next-bottom {
+    transform: translateY(-50%);
+}
+
+/* 下一个数字初始位置 */
+.next-top {
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+.next-bottom {
+    transform: translateY(50%);
+    opacity: 0;
+}
+
+/* 翻页动画 */
+@keyframes flip-top {
+    0% {
+        transform: rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        transform: rotateX(-90deg);
+        opacity: 0.5;
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+    }
+    51% {
+        transform: rotateX(-90deg);
+        opacity: 0.5;
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+}
+
+@keyframes flip-bottom {
+    0% {
+        transform: rotateX(90deg);
+        opacity: 0.5;
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.2) inset;
+    }
+    50% {
+        transform: rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* 翻页动画类 */
+.flip-top {
+    animation: flip-top var(--animation-duration) var(--animation-timing) forwards;
+    transform-origin: bottom;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+.flip-bottom {
+    animation: flip-bottom var(--animation-duration) var(--animation-timing) forwards;
+    transform-origin: top;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+/* 为每个数字卡片添加右侧分隔线，除了每个时间单元的最后一个 */
+.time-digits .digit:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -7.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 120px;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+.clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: var(--label-color);
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 255px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .date {
+        font-size: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .time-units {
+        gap: 20px;
+    }
+    
+    .time-digits {
+        gap: 10px;
+    }
+    
+    .digit {
+        width: 80px;
+        height: 120px;
+    }
+    
+    /* 当前数字和下一个数字 */
+    .current-top, .next-top, .current-bottom, .next-bottom {
+        font-size: 80px;
+    }
+    
+    .time-digits .digit:not(:last-child)::after {
+        right: -5px;
+        height: 80px;
+    }
+    
+    .label {
+        font-size: 12px;
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .date {
+        font-size: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .time-units {
+        gap: 15px;
+    }
+    
+    .time-digits {
+        gap: 8px;
+    }
+    
+    .digit {
+        width: 50px;
+        height: 80px;
+        border-radius: 6px;
+    }
+    
+    /* 当前数字和下一个数字 */
+    .current-top, .next-top, .current-bottom, .next-bottom {
+        font-size: 50px;
+    }
+    
+    .time-digits .digit:not(:last-child)::after {
+        right: -4px;
+        height: 50px;
+    }
+    
+    .label {
+        font-size: 10px;
+        letter-spacing: 1px;
+        max-width: 115px;
+    }
+}
